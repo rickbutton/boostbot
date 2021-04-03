@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc -w"
+    "watch": "tsc -w",
+    "start": "node out/main.js",
+    "dev": "nodemon out/main.js"
   },
   "keywords": [],
   "author": "",
