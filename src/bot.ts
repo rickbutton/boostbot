@@ -14,10 +14,10 @@ export async function startBot() {
 
         const characters = await getCharacters(user.id);
 
-        let message = `*Character Sync Complete!*\nThe following characters are synced:`;
+        let message = `**Character Sync Complete!**\n\nThe following characters are synced:\n`;
 
         for (const character of characters) {
-            message += `- ${character.name}-${character.realm}, Level ${character.level} ${character.race} ${character.class}`;
+            message += `\n- ${character.name}-${character.realm}, Level ${character.level} ${character.race} ${character.class}`;
         }
 
         

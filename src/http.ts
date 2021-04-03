@@ -12,6 +12,8 @@ export function startExpressApp() {
         require("https-localhost")() as express.Application :
         express();
 
+    app.enable("trust proxy");
+
     const prisma = new PrismaClient();
     app.use(session({
         secret: String(process.env.SESSION_SECRET),
