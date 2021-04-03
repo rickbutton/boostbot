@@ -70,5 +70,5 @@ export function startExpressApp() {
             }
         });
 
-    app.listen(Number(process.env.EXPRESS_PORT), () => { });
+    app.listen(Number(process.env.PORT), () => { });
 }
