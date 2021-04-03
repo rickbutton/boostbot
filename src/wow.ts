@@ -96,3 +96,8 @@ export async function syncCharacters(discordId: string, token: string) {
 
     BUS.publish(SYNC_COMPLETE_EVENT({ id: discordId }));
 }
+
+export function getCharacters(discordId: string) {
+    const client = new PrismaClient();
+    return client.character.findMany({ where: { discordId } });
+}
