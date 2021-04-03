@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Account {
+  created DateTime @default(now())
+  updated DateTime @default(now()) @updatedAt
+  lastSync DateTime?
+  discordId String @id
+
+  bnetId String?
+  bnetTag String?
+
+  characters Character[]
+
+  createdBoosts Boost[] @relation("creator")
+}
+
+model Character {
+  created DateTime @default(now())
+  id String @id
+  name String
+  realm String
+  faction String
+  class String
+  race String
+  level Int
+
+  ioDps Float @default(0)
+  ioHealer Float @default(0)
+  ioTank Float @default(0)
+
+  discordId String
+  account Account @relation(fields: [discordId], references: [discordId])
+}
+
+model Boost {
+  id Int @id @default(autoincrement())
+  type String
+  created DateTime @default(now())
+  updated DateTime @default(now()) @updatedAt
+
+  creatorId String
+  creator Account @relation("creator", fields: [creatorId], references: [discordId])
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt   DateTime
+}
