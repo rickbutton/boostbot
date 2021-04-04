@@ -14,10 +14,18 @@ export async function startBot() {
 
         const characters = await getCharacters(user.id);
 
-        let message = `**Character Sync Complete!**\n\nThe following characters are synced:\n`;
+        const validCharacters = characters.filter(c =>
+            c.level === 60 &&
+            (c.ioDps > 0 || c.ioHealer > 0 || c.ioTank > 0));
 
-        for (const character of characters) {
-            message += `\n- ${character.name}-${character.realm}, Level ${character.level} ${character.race} ${character.class}`;
+        let message = `**Character Sync Complete!**\n\nThe following characters are valid boosters:\n`;
+
+        for (const character of validCharacters) {
+            message += `\n - ${character.name}-${character.realm}, Level ${
+                    character.level} ${character.race} ${character.class}`;
+            message += `\n   - DPS IO: ${character.ioDps}`;
+            message += `\n   - Healer IO: ${character.ioHealer}`;
+            message += `\n   - Tank IO: ${character.ioTank}`;
         }
 
         
