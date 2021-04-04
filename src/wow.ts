@@ -1,6 +1,7 @@
+import { Character } from "@prisma/client";
 import { wow } from "blizzard.js";
 import { default as fetch } from "node-fetch";
-import { PrismaClient, Character } from "@prisma/client";
+import { getDb } from "./db";
 import { BUS, SYNC_COMPLETE_EVENT } from "./events";
 
 type UnsavedCharacter = Omit<Character, "created">;
@@ -75,7 +76,7 @@ export async function syncCharacters(discordId: string, token: string) {
         }
     }
 
-    const client = new PrismaClient();
+    const client = getDb();
     // find deleted characters
     const currentCharacters = await client.character.findMany({ where: { discordId } });
     const deletedCharacters = currentCharacters.filter(char => !newCharacters.some(newChar => char.id === newChar.id));
@@ -98,6 +99,6 @@ export async function syncCharacters(discordId: string, token: string) {
 }
 
 export function getCharacters(discordId: string) {
-    const client = new PrismaClient();
+    const client = getDb();
     return client.character.findMany({ where: { discordId } });
 }

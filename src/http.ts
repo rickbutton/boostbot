@@ -1,10 +1,10 @@
-import { PrismaClient } from "@prisma/client";
 import * as express from "express";
 import * as passport from "passport";
 import * as session from "express-session";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import { syncCharacters } from "./wow";
 import { updateBnetInformation } from "./auth";
+import { getDb } from "./db";
 
 
 export function startExpressApp() {
@@ -14,7 +14,7 @@ export function startExpressApp() {
 
     app.enable("trust proxy");
 
-    const prisma = new PrismaClient();
+    const prisma = getDb();
     app.use(session({
         secret: String(process.env.SESSION_SECRET),
         resave: false,

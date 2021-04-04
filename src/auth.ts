@@ -1,7 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import { getDb } from "./db";
 
 export async function createAccountIfDoesntExist(discordId: string) {
-    const prisma = new PrismaClient();
+    const prisma = getDb();
 
     const account = await prisma.account.findUnique({ where: { discordId } });
     if (!account) {
@@ -13,12 +13,12 @@ export async function createAccountIfDoesntExist(discordId: string) {
 }
 
 export async function updateBnetInformation(discordId: string, bnetId: string, bnetTag: string) {
-    const prisma = new PrismaClient();
+    const prisma = getDb();
     await prisma.account.update({ where: { discordId }, data: { bnetId, bnetTag} });
 }
 
 export async function getAccount(discordId: string) {
-    const prisma = new PrismaClient();
+    const prisma = getDb();
 
     return prisma.account.findUnique({ where: { discordId } });
 }
